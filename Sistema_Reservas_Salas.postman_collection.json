@@ -172,7 +172,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Sala de Reunião A\",\n    \"capacidade\": 10,\n    \"localizacao\": \"1º Andar - Ala Norte\"\n}",
+							"raw": "{\n    \"nome\": \"Sala de Reunião A\",\n    \"capacidade\": 10,\n    \"localizacao\": \"1º Andar - Ala Norte\",\n    \"horario_abertura\": \"08:00\",\n    \"horario_fechamento\": \"18:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -189,7 +189,7 @@
 								"salas"
 							]
 						},
-						"description": "Cria uma nova sala no sistema."
+						"description": "Cria uma nova sala no sistema. O horário de funcionamento é obrigatório (horario_abertura e horario_fechamento no formato HH:mm)."
 					},
 					"response": []
 				},
@@ -225,7 +225,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"nome\": \"Sala de Reunião A - Atualizada\",\n    \"capacidade\": 12,\n    \"localizacao\": \"1º Andar - Ala Norte - Sala 101\"\n}",
+							"raw": "{\n    \"nome\": \"Sala de Reunião A - Atualizada\",\n    \"capacidade\": 12,\n    \"localizacao\": \"1º Andar - Ala Norte - Sala 101\",\n    \"horario_abertura\": \"08:00\",\n    \"horario_fechamento\": \"18:00\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -243,7 +243,7 @@
 								"{{sala_id}}"
 							]
 						},
-						"description": "Atualiza os dados de uma sala existente."
+						"description": "Atualiza os dados de uma sala existente. Todos os campos são opcionais (usar 'sometimes' na validação)."
 					},
 					"response": []
 				},
@@ -321,7 +321,7 @@
 								"reservas"
 							]
 						},
-						"description": "Cria uma nova reserva. O sistema verifica automaticamente se há conflito de horário."
+						"description": "Cria uma nova reserva. O sistema verifica automaticamente se há conflito de horário e se o horário está dentro do horário de funcionamento da sala (ex: se a sala funciona das 08:00 às 18:00, não permite reservas fora desse horário)."
 					},
 					"response": []
 				},
@@ -375,7 +375,7 @@
 								"{{reserva_id}}"
 							]
 						},
-						"description": "Atualiza uma reserva existente. O sistema verifica automaticamente se há conflito de horário."
+						"description": "Atualiza uma reserva existente. O sistema verifica automaticamente se há conflito de horário e se o horário está dentro do horário de funcionamento da sala."
 					},
 					"response": []
 				},
@@ -471,7 +471,7 @@
 								"verificar-disponibilidade"
 							]
 						},
-						"description": "Verifica se uma sala está disponível em um período específico, sem criar a reserva."
+						"description": "Verifica se uma sala está disponível em um período específico, sem criar a reserva. Retorna mensagens específicas: se o horário está fora do horário de funcionamento da sala ou se já existe uma reserva no período."
 					},
 					"response": []
 				}
