@@ -1,0 +1,505 @@
+{
+	"info": {
+		"_postman_id": "sistema-reservas-salas-001",
+		"name": "Sistema de Reservas de Salas - API",
+		"description": "Collection completa da API do Sistema de Reservas de Salas de Reunião",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Usuários",
+			"item": [
+				{
+					"name": "Listar Todos os Usuários",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Retorna uma lista com todos os usuários cadastrados no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Usuário",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva\",\n    \"email\": \"joao.silva@empresa.com\",\n    \"departamento\": \"TI\",\n    \"telefone\": \"(11) 99999-9999\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios"
+							]
+						},
+						"description": "Cria um novo usuário no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Usuário por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{usuario_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{usuario_id}}"
+							]
+						},
+						"description": "Retorna os dados de um usuário específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Usuário",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"João Silva Atualizado\",\n    \"email\": \"joao.silva.novo@empresa.com\",\n    \"departamento\": \"Desenvolvimento\",\n    \"telefone\": \"(11) 98888-8888\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{usuario_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{usuario_id}}"
+							]
+						},
+						"description": "Atualiza os dados de um usuário existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Usuário",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/usuarios/{{usuario_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"usuarios",
+								"{{usuario_id}}"
+							]
+						},
+						"description": "Remove um usuário do sistema."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciamento de usuários"
+		},
+		{
+			"name": "Salas",
+			"item": [
+				{
+					"name": "Listar Todas as Salas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/salas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"salas"
+							]
+						},
+						"description": "Retorna uma lista com todas as salas cadastradas no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Sala",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Sala de Reunião A\",\n    \"capacidade\": 10,\n    \"localizacao\": \"1º Andar - Ala Norte\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/salas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"salas"
+							]
+						},
+						"description": "Cria uma nova sala no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Sala por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/salas/{{sala_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"salas",
+								"{{sala_id}}"
+							]
+						},
+						"description": "Retorna os dados de uma sala específica."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Sala",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nome\": \"Sala de Reunião A - Atualizada\",\n    \"capacidade\": 12,\n    \"localizacao\": \"1º Andar - Ala Norte - Sala 101\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/salas/{{sala_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"salas",
+								"{{sala_id}}"
+							]
+						},
+						"description": "Atualiza os dados de uma sala existente."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Sala",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/salas/{{sala_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"salas",
+								"{{sala_id}}"
+							]
+						},
+						"description": "Remove uma sala do sistema."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciamento de salas"
+		},
+		{
+			"name": "Reservas",
+			"item": [
+				{
+					"name": "Listar Todas as Reservas",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reservas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas"
+							]
+						},
+						"description": "Retorna uma lista com todas as reservas cadastradas no sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Criar Reserva",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario_id\": 1,\n    \"sala_id\": 1,\n    \"data_reserva\": \"2025-12-29\",\n    \"horario_inicio\": \"14:00\",\n    \"horario_fim\": \"15:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reservas",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas"
+							]
+						},
+						"description": "Cria uma nova reserva. O sistema verifica automaticamente se há conflito de horário."
+					},
+					"response": []
+				},
+				{
+					"name": "Buscar Reserva por ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reservas/{{reserva_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"{{reserva_id}}"
+							]
+						},
+						"description": "Retorna os dados de uma reserva específica."
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Reserva",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"usuario_id\": 1,\n    \"sala_id\": 1,\n    \"data_reserva\": \"2025-12-29\",\n    \"horario_inicio\": \"16:00\",\n    \"horario_fim\": \"17:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reservas/{{reserva_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"{{reserva_id}}"
+							]
+						},
+						"description": "Atualiza uma reserva existente. O sistema verifica automaticamente se há conflito de horário."
+					},
+					"response": []
+				},
+				{
+					"name": "Deletar Reserva",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reservas/{{reserva_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"{{reserva_id}}"
+							]
+						},
+						"description": "Remove uma reserva do sistema."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Reservas por Sala",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reservas/sala/{{sala_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"sala",
+								"{{sala_id}}"
+							]
+						},
+						"description": "Retorna todas as reservas de uma sala específica."
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Reservas por Usuário",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/reservas/usuario/{{usuario_id}}",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"usuario",
+								"{{usuario_id}}"
+							]
+						},
+						"description": "Retorna todas as reservas de um usuário específico."
+					},
+					"response": []
+				},
+				{
+					"name": "Verificar Disponibilidade",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sala_id\": 1,\n    \"data_reserva\": \"2025-12-29\",\n    \"horario_inicio\": \"14:00\",\n    \"horario_fim\": \"15:00\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/reservas/verificar-disponibilidade",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"reservas",
+								"verificar-disponibilidade"
+							]
+						},
+						"description": "Verifica se uma sala está disponível em um período específico, sem criar a reserva."
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints para gerenciamento de reservas"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000",
+			"type": "string"
+		},
+		{
+			"key": "usuario_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "sala_id",
+			"value": "1",
+			"type": "string"
+		},
+		{
+			"key": "reserva_id",
+			"value": "1",
+			"type": "string"
+		}
+	]
+}
+
