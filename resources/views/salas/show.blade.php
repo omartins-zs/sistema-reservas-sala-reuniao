@@ -58,9 +58,9 @@
                                     <p class="text-sm text-gray-500">{{ $reserva->data_reserva->format('d/m/Y') }}</p>
                                     <p class="text-sm text-gray-500">{{ $reserva->horario_inicio }} - {{ $reserva->horario_fim }}</p>
                                 </div>
-                                <a href="{{ route('reservas.show', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                <button type="button" onclick="window.location.href='{{ route('reservas.show', $reserva) }}'" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                     Ver
-                                </a>
+                                </button>
                             </div>
                         </div>
                     @endforeach

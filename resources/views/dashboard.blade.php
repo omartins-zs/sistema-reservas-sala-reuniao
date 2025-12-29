@@ -156,9 +156,9 @@
                                     {{ $reserva->horario_inicio }} - {{ $reserva->horario_fim }}
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <a href="{{ route('reservas.show', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <button type="button" onclick="window.location.href='{{ route('reservas.show', $reserva) }}'" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                         Ver
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach

@@ -39,12 +39,12 @@
                         </p>
                     </div>
                     <div class="mt-4 flex space-x-2">
-                        <a href="{{ route('salas.show', $sala) }}" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <button type="button" onclick="window.location.href='{{ route('salas.show', $sala) }}'" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                             Ver
-                        </a>
-                        <a href="{{ route('salas.edit', $sala) }}" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        </button>
+                        <button type="button" onclick="window.location.href='{{ route('salas.edit', $sala) }}'" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700">
                             Editar
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>

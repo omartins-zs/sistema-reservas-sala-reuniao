@@ -92,12 +92,12 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end space-x-2">
-                                    <a href="{{ route('reservas.show', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                    <button type="button" onclick="window.location.href='{{ route('reservas.show', $reserva) }}'" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                         Ver
-                                    </a>
-                                    <a href="{{ route('reservas.edit', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                                    </button>
+                                    <button type="button" onclick="window.location.href='{{ route('reservas.edit', $reserva) }}'" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700">
                                         Editar
-                                    </a>
+                                    </button>
                                     <form action="{{ route('reservas.destroy', $reserva) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja remover esta reserva?')">
                                         @csrf
                                         @method('DELETE')
