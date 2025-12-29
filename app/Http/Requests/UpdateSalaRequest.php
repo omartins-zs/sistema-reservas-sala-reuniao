@@ -25,6 +25,8 @@ class UpdateSalaRequest extends FormRequest
             'nome' => ['sometimes', 'string', 'max:100'],
             'capacidade' => ['sometimes', 'integer', 'min:1'],
             'localizacao' => ['nullable', 'string', 'max:200'],
+            'horario_abertura' => ['sometimes', 'date_format:H:i'],
+            'horario_fechamento' => ['sometimes', 'date_format:H:i', 'after:horario_abertura'],
         ];
     }
 
@@ -40,6 +42,9 @@ class UpdateSalaRequest extends FormRequest
             'capacidade.integer' => 'A capacidade deve ser um número inteiro.',
             'capacidade.min' => 'A capacidade deve ser no mínimo 1 pessoa.',
             'localizacao.max' => 'A localização não pode ter mais de 200 caracteres.',
+            'horario_abertura.date_format' => 'O horário de abertura deve estar no formato HH:mm.',
+            'horario_fechamento.date_format' => 'O horário de fechamento deve estar no formato HH:mm.',
+            'horario_fechamento.after' => 'O horário de fechamento deve ser posterior ao horário de abertura.',
         ];
     }
 }

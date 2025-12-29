@@ -25,6 +25,8 @@ class StoreSalaRequest extends FormRequest
             'nome' => ['required', 'string', 'max:100'],
             'capacidade' => ['required', 'integer', 'min:1'],
             'localizacao' => ['nullable', 'string', 'max:200'],
+            'horario_abertura' => ['required', 'date_format:H:i'],
+            'horario_fechamento' => ['required', 'date_format:H:i', 'after:horario_abertura'],
         ];
     }
 
@@ -42,6 +44,11 @@ class StoreSalaRequest extends FormRequest
             'capacidade.integer' => 'A capacidade deve ser um número inteiro.',
             'capacidade.min' => 'A capacidade deve ser no mínimo 1 pessoa.',
             'localizacao.max' => 'A localização não pode ter mais de 200 caracteres.',
+            'horario_abertura.required' => 'O horário de abertura é obrigatório.',
+            'horario_abertura.date_format' => 'O horário de abertura deve estar no formato HH:mm.',
+            'horario_fechamento.required' => 'O horário de fechamento é obrigatório.',
+            'horario_fechamento.date_format' => 'O horário de fechamento deve estar no formato HH:mm.',
+            'horario_fechamento.after' => 'O horário de fechamento deve ser posterior ao horário de abertura.',
         ];
     }
 }

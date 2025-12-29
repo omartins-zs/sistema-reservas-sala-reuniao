@@ -236,9 +236,31 @@ class ReservaController extends Controller
                 $request->horario_fim
             );
 
+            $sala = \App\Models\Sala::findOrFail($request->sala_id);
+            $horarioAbertura = $sala->horario_abertura ?? '08:00:00';
+            $horarioFechamento = $sala->horario_fechamento ?? '18:00:00';
+
+            // Normaliza formatos para comparação (remove segundos se houver)
+            $horarioAberturaFormatado = substr($horarioAbertura, 0, 5);
+            $horarioFechamentoFormatado = substr($horarioFechamento, 0, 5);
+            $horarioInicioFormatado = substr($request->horario_inicio, 0, 5);
+            $horarioFimFormatado = substr($request->horario_fim, 0, 5);
+
+            // Verifica se está dentro do horário de funcionamento
+            $mensagem = 'Sala disponível no período solicitado.';
+            if (!$disponivel) {
+                if ($horarioInicioFormatado < $horarioAberturaFormatado) {
+                    $mensagem = "A sala está disponível apenas a partir das {$horarioAberturaFormatado}.";
+                } elseif ($horarioFimFormatado > $horarioFechamentoFormatado) {
+                    $mensagem = "A sala está disponível apenas até às {$horarioFechamentoFormatado}.";
+                } else {
+                    $mensagem = 'A sala já está reservada neste horário.';
+                }
+            }
+
             return response()->json([
                 'status' => 'success',
-                'message' => $disponivel ? 'Sala disponível no período solicitado.' : 'Sala não disponível no período solicitado.',
+                'message' => $mensagem,
                 'data' => [
                     'disponivel' => $disponivel,
                 ],
@@ -251,8 +273,8 @@ class ReservaController extends Controller
 
             return response()->json([
                 'status' => 'error',
-                'message' => 'Erro ao verificar disponibilidade.',
-            ], 500);
+                'message' => $e->getMessage(),
+            ], 400);
         }
     }
 }
