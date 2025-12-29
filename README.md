@@ -19,22 +19,51 @@ Sistema completo desenvolvido em Laravel para gerenciamento de reservas de salas
 
 ## 🎯 Sobre o Projeto
 
-Este sistema foi desenvolvido para resolver o problema de gerenciamento de reservas de salas de reunião em empresas. O sistema permite:
+Sistema completo de gerenciamento de reservas de salas de reunião desenvolvido como teste técnico, demonstrando boas práticas de desenvolvimento Laravel, arquitetura limpa e testes automatizados.
 
-- ✅ Verificação de disponibilidade em tempo real
-- ✅ Prevenção de conflitos de horário
-- ✅ Cadastro de salas e usuários
-- ✅ Listagem de reservas por sala ou usuário
-- ✅ API RESTful completa e documentada
+### ✨ Funcionalidades
+
+- ✅ CRUD completo de Usuários, Salas e Reservas
+- ✅ API RESTful com validações robustas
+- ✅ Interface web responsiva com Tailwind CSS (Hyper UI)
+- ✅ Verificação de conflitos de horário em tempo real
+- ✅ Controle de horário de funcionamento das salas
+- ✅ Validação de disponibilidade antes de criar reservas
+- ✅ Testes automatizados com Pest 4 (64+ testes)
+- ✅ Documentação completa com Postman Collection
+
+### 🏗️ Arquitetura
+
+- **Controllers Enxutos**: Apenas orquestração de chamadas
+- **Service Layer**: Toda lógica de negócio centralizada
+- **Form Requests**: Validações com mensagens amigáveis
+- **Custom Exceptions**: Tratamento de erros padronizado
+- **Factories e Seeders**: Dados de teste organizados
+
+### 🛠️ Tecnologias
+
+- Laravel 12
+- PHP 8.2+
+- MySQL
+- Tailwind CSS (Hyper UI)
+- Alpine.js
+- Pest 4 (Testes)
+- Postman (API Testing)
+
+### 📊 Testes
+
+- 64+ testes automatizados
+- Cobertura de Models, Services, Controllers (API e Web)
+- Testes de integração e unitários
+- Factories para geração de dados de teste
+
+### 📚 Documentação
+
+- README completo com instruções de instalação
+- Postman Collection com exemplos de todas as rotas
+- Comentários no código seguindo padrões PSR
 
 ---
-
-## 🛠 Tecnologias Utilizadas
-
-- **PHP 8.2+**
-- **Laravel 12**
-- **MySQL**
-- **Composer**
 
 ---
 
