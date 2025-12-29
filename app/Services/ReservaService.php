@@ -11,16 +11,34 @@ use Illuminate\Support\Facades\Log;
 
 class ReservaService
 {
-    /**
-     * Verifica se existe conflito de horário para uma reserva
-     *
-     * @param int $salaId
-     * @param string $dataReserva
-     * @param string $horarioInicio
-     * @param string $horarioFim
-     * @param int|null $reservaIdExcluir (para atualização, excluir a própria reserva da verificação)
-     * @return bool
-     */
+    public function verificarHorarioFuncionamento(
+        Sala $sala,
+        string $horarioInicio,
+        string $horarioFim
+    ): bool {
+        $horarioAbertura = $sala->horario_abertura ?? '08:00:00';
+        $horarioFechamento = $sala->horario_fechamento ?? '18:00:00';
+
+        $horarioAberturaFormatado = substr($horarioAbertura, 0, 5);
+        $horarioFechamentoFormatado = substr($horarioFechamento, 0, 5);
+        $horarioInicioFormatado = substr($horarioInicio, 0, 5);
+        $horarioFimFormatado = substr($horarioFim, 0, 5);
+
+        if ($horarioInicioFormatado < $horarioAberturaFormatado) {
+            throw new \Exception("A sala está disponível apenas a partir das {$horarioAberturaFormatado}.");
+        }
+
+        if ($horarioFimFormatado > $horarioFechamentoFormatado) {
+            throw new \Exception("A sala está disponível apenas até às {$horarioFechamentoFormatado}.");
+        }
+
+        if ($horarioInicioFormatado >= $horarioFimFormatado) {
+            throw new \Exception("O horário de início deve ser anterior ao horário de término.");
+        }
+
+        return true;
+    }
+
     public function verificarConflitoHorario(
         int $salaId,
         string $dataReserva,
@@ -28,13 +46,14 @@ class ReservaService
         string $horarioFim,
         ?int $reservaIdExcluir = null
     ): bool {
-        // Verifica sobreposição de intervalos de tempo
-        // Dois intervalos se sobrepõem se:
-        // inicio_novo < fim_existente AND fim_novo > inicio_existente
+        $horarioInicioNormalizado = strlen($horarioInicio) === 5 ? $horarioInicio . ':00' : $horarioInicio;
+        $horarioFimNormalizado = strlen($horarioFim) === 5 ? $horarioFim . ':00' : $horarioFim;
         $query = Reserva::where('sala_id', $salaId)
             ->where('data_reserva', $dataReserva)
-            ->where('horario_inicio', '<', $horarioFim)
-            ->where('horario_fim', '>', $horarioInicio);
+            ->where(function($q) use ($horarioInicioNormalizado, $horarioFimNormalizado) {
+                $q->whereRaw('CAST(horario_inicio AS CHAR) < ?', [$horarioFimNormalizado])
+                  ->whereRaw('CAST(horario_fim AS CHAR) > ?', [$horarioInicioNormalizado]);
+            });
 
         if ($reservaIdExcluir) {
             $query->where('id', '!=', $reservaIdExcluir);
@@ -43,25 +62,19 @@ class ReservaService
         return $query->exists();
     }
 
-    /**
-     * Cria uma nova reserva após validar disponibilidade
-     *
-     * @param array $dados
-     * @return Reserva
-     * @throws \Exception
-     */
     public function criarReserva(array $dados): Reserva
     {
         DB::beginTransaction();
 
         try {
-            // Valida se a sala existe
             $sala = Sala::findOrFail($dados['sala_id']);
-
-            // Valida se o usuário existe
             $usuario = Usuario::findOrFail($dados['usuario_id']);
+            $this->verificarHorarioFuncionamento(
+                $sala,
+                $dados['horario_inicio'],
+                $dados['horario_fim']
+            );
 
-            // Verifica conflito de horário
             if ($this->verificarConflitoHorario(
                 $dados['sala_id'],
                 $dados['data_reserva'],
@@ -75,10 +88,9 @@ class ReservaService
                     'horario_fim' => $dados['horario_fim'],
                 ]);
 
-                throw new ConflitoHorarioException();
+                throw new ConflitoHorarioException('A sala já está reservada neste horário.');
             }
 
-            // Cria a reserva
             $reserva = Reserva::create($dados);
 
             Log::info('Reserva criada com sucesso', [
@@ -100,14 +112,6 @@ class ReservaService
         }
     }
 
-    /**
-     * Atualiza uma reserva existente após validar disponibilidade
-     *
-     * @param int $reservaId
-     * @param array $dados
-     * @return Reserva
-     * @throws \Exception
-     */
     public function atualizarReserva(int $reservaId, array $dados): Reserva
     {
         DB::beginTransaction();
@@ -115,21 +119,21 @@ class ReservaService
         try {
             $reserva = Reserva::findOrFail($reservaId);
 
-            // Valida se a sala existe (se foi alterada)
-            if (isset($dados['sala_id'])) {
-                Sala::findOrFail($dados['sala_id']);
-            }
+            $salaId = $dados['sala_id'] ?? $reserva->sala_id;
+            $sala = Sala::findOrFail($salaId);
 
-            // Valida se o usuário existe (se foi alterado)
             if (isset($dados['usuario_id'])) {
                 Usuario::findOrFail($dados['usuario_id']);
             }
-
-            // Verifica conflito de horário (excluindo a própria reserva)
-            $salaId = $dados['sala_id'] ?? $reserva->sala_id;
             $dataReserva = $dados['data_reserva'] ?? $reserva->data_reserva;
             $horarioInicio = $dados['horario_inicio'] ?? $reserva->horario_inicio;
             $horarioFim = $dados['horario_fim'] ?? $reserva->horario_fim;
+
+            $this->verificarHorarioFuncionamento(
+                $sala,
+                $horarioInicio,
+                $horarioFim
+            );
 
             if ($this->verificarConflitoHorario(
                 $salaId,
@@ -146,10 +150,9 @@ class ReservaService
                     'horario_fim' => $horarioFim,
                 ]);
 
-                throw new ConflitoHorarioException();
+                throw new ConflitoHorarioException('A sala já está reservada neste horário.');
             }
 
-            // Atualiza a reserva
             $reserva->update($dados);
             $reserva->refresh();
 
@@ -171,12 +174,6 @@ class ReservaService
         }
     }
 
-    /**
-     * Lista todas as reservas de uma sala
-     *
-     * @param int $salaId
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
     public function listarReservasPorSala(int $salaId)
     {
         $sala = Sala::findOrFail($salaId);
@@ -188,12 +185,6 @@ class ReservaService
             ->get();
     }
 
-    /**
-     * Lista todas as reservas de um usuário
-     *
-     * @param int $usuarioId
-     * @return \Illuminate\Database\Eloquent\Collection
-     */
     public function listarReservasPorUsuario(int $usuarioId)
     {
         $usuario = Usuario::findOrFail($usuarioId);
@@ -205,21 +196,20 @@ class ReservaService
             ->get();
     }
 
-    /**
-     * Verifica disponibilidade de uma sala em um período específico
-     *
-     * @param int $salaId
-     * @param string $dataReserva
-     * @param string $horarioInicio
-     * @param string $horarioFim
-     * @return bool
-     */
     public function verificarDisponibilidade(
         int $salaId,
         string $dataReserva,
         string $horarioInicio,
         string $horarioFim
     ): bool {
+        $sala = Sala::findOrFail($salaId);
+        
+        try {
+            $this->verificarHorarioFuncionamento($sala, $horarioInicio, $horarioFim);
+        } catch (\Exception $e) {
+            return false;
+        }
+        
         return !$this->verificarConflitoHorario($salaId, $dataReserva, $horarioInicio, $horarioFim);
     }
 }
