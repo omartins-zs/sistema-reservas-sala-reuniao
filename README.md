@@ -1,59 +1,608 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Sistema de Reservas de Salas de Reunião
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema completo desenvolvido em Laravel para gerenciamento de reservas de salas de reunião, permitindo verificação de disponibilidade em tempo real e prevenção de conflitos de horário.
 
-## About Laravel
+## 📋 Índice
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- [Sobre o Projeto](#sobre-o-projeto)
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Estrutura do Projeto](#estrutura-do-projeto)
+- [Instalação](#instalação)
+- [Configuração do Banco de Dados](#configuração-do-banco-de-dados)
+- [Executando as Migrations](#executando-as-migrations)
+- [Rotas da API](#rotas-da-api)
+- [Exemplos de Uso](#exemplos-de-uso)
+- [Arquitetura e Decisões Técnicas](#arquitetura-e-decisões-técnicas)
+- [Tratamento de Erros](#tratamento-de-erros)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## 🎯 Sobre o Projeto
 
-## Learning Laravel
+Este sistema foi desenvolvido para resolver o problema de gerenciamento de reservas de salas de reunião em empresas. O sistema permite:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- ✅ Verificação de disponibilidade em tempo real
+- ✅ Prevenção de conflitos de horário
+- ✅ Cadastro de salas e usuários
+- ✅ Listagem de reservas por sala ou usuário
+- ✅ API RESTful completa e documentada
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠 Tecnologias Utilizadas
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **PHP 8.2+**
+- **Laravel 12**
+- **MySQL**
+- **Composer**
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## 📁 Estrutura do Projeto
 
-## Contributing
+```
+app/
+├── Exceptions/
+│   └── ConflitoHorarioException.php    # Exception customizada para conflitos
+├── Http/
+│   ├── Controllers/
+│   │   └── Api/
+│   │       ├── ReservaController.php   # Controller de reservas
+│   │       ├── SalaController.php      # Controller de salas
+│   │       └── UsuarioController.php    # Controller de usuários
+│   └── Requests/
+│       ├── StoreReservaRequest.php      # Validação de criação de reserva
+│       ├── UpdateReservaRequest.php     # Validação de atualização de reserva
+│       ├── StoreSalaRequest.php        # Validação de criação de sala
+│       ├── UpdateSalaRequest.php       # Validação de atualização de sala
+│       ├── StoreUsuarioRequest.php     # Validação de criação de usuário
+│       └── UpdateUsuarioRequest.php    # Validação de atualização de usuário
+├── Models/
+│   ├── Reserva.php                     # Model de reservas
+│   ├── Sala.php                        # Model de salas
+│   └── Usuario.php                     # Model de usuários
+└── Services/
+    ├── ReservaService.php              # Lógica de negócio de reservas
+    ├── SalaService.php                 # Lógica de negócio de salas
+    └── UsuarioService.php              # Lógica de negócio de usuários
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+database/
+└── migrations/
+    ├── 2025_12_28_150719_create_usuarios_table.php
+    ├── 2025_12_28_150721_create_salas_table.php
+    └── 2025_12_28_150722_create_reservas_table.php
 
-## Code of Conduct
+routes/
+└── api.php                             # Rotas da API
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+---
 
-## Security Vulnerabilities
+## 🚀 Instalação
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Pré-requisitos
 
-## License
+- PHP 8.2 ou superior
+- Composer
+- MySQL 5.7+ ou MariaDB 10.3+
+- Extensões PHP: BCMath, Ctype, Fileinfo, JSON, Mbstring, OpenSSL, PDO, Tokenizer, XML
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Passos
+
+1. **Clone o repositório** (ou navegue até a pasta do projeto)
+
+2. **Instale as dependências:**
+```bash
+composer install
+```
+
+3. **Configure o arquivo `.env`:**
+```bash
+cp .env.example .env
+php artisan key:generate
+```
+
+4. **Configure as variáveis de ambiente no arquivo `.env`:**
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=nome_do_banco
+DB_USERNAME=seu_usuario
+DB_PASSWORD=sua_senha
+```
+
+5. **Inicie o servidor:**
+```bash
+php artisan serve
+```
+
+O servidor estará disponível em `http://localhost:8000`
+
+---
+
+## 🗄 Configuração do Banco de Dados
+
+### Criando o Banco de Dados
+
+No MySQL, execute:
+
+```sql
+CREATE DATABASE sistema_reservas CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
+
+---
+
+## 📊 Executando as Migrations
+
+Execute as migrations para criar as tabelas no banco de dados:
+
+```bash
+php artisan migrate
+```
+
+Isso criará as seguintes tabelas:
+
+- **usuarios**: Armazena os funcionários/usuários do sistema
+- **salas**: Armazena as salas de reunião disponíveis
+- **reservas**: Armazena as reservas realizadas
+
+### Populando o Banco com Dados de Exemplo (Seeders)
+
+O projeto inclui seeders para popular o banco de dados com dados de exemplo, facilitando testes e demonstração:
+
+```bash
+php artisan db:seed
+```
+
+Ou execute migrations e seeders juntos:
+
+```bash
+php artisan migrate --seed
+```
+
+Os seeders criam:
+- **5 usuários** de exemplo (diferentes departamentos)
+- **5 salas** de exemplo (diferentes capacidades e localizações)
+- **6 reservas** de exemplo (hoje e amanhã)
+
+**Nota**: Os seeders criam reservas para a data atual e do dia seguinte. Se você executar os seeders em dias diferentes, as reservas serão criadas para as datas correspondentes.
+
+---
+
+## 🔌 Rotas da API
+
+Todas as rotas da API estão prefixadas com `/api`.
+
+### Usuários
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/usuarios` | Lista todos os usuários |
+| POST | `/api/usuarios` | Cria um novo usuário |
+| GET | `/api/usuarios/{id}` | Exibe um usuário específico |
+| PUT | `/api/usuarios/{id}` | Atualiza um usuário |
+| DELETE | `/api/usuarios/{id}` | Remove um usuário |
+
+### Salas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/salas` | Lista todas as salas |
+| POST | `/api/salas` | Cria uma nova sala |
+| GET | `/api/salas/{id}` | Exibe uma sala específica |
+| PUT | `/api/salas/{id}` | Atualiza uma sala |
+| DELETE | `/api/salas/{id}` | Remove uma sala |
+
+### Reservas
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/api/reservas` | Lista todas as reservas |
+| POST | `/api/reservas` | Cria uma nova reserva |
+| GET | `/api/reservas/{id}` | Exibe uma reserva específica |
+| PUT | `/api/reservas/{id}` | Atualiza uma reserva |
+| DELETE | `/api/reservas/{id}` | Remove uma reserva |
+| GET | `/api/reservas/sala/{salaId}` | Lista reservas de uma sala |
+| GET | `/api/reservas/usuario/{usuarioId}` | Lista reservas de um usuário |
+| POST | `/api/reservas/verificar-disponibilidade` | Verifica disponibilidade |
+
+### 📬 Collection do Postman
+
+Uma collection completa do Postman está disponível no arquivo `Sistema_Reservas_Salas.postman_collection.json` na raiz do projeto.
+
+**Como importar:**
+
+1. Abra o Postman
+2. Clique em **Import** (canto superior esquerdo)
+3. Selecione o arquivo `Sistema_Reservas_Salas.postman_collection.json`
+4. A collection será importada com todas as rotas e exemplos
+
+**Variáveis de Ambiente:**
+
+A collection inclui as seguintes variáveis que você pode configurar:
+
+- `base_url`: URL base da API (padrão: `http://localhost:8000`)
+- `usuario_id`: ID de exemplo de usuário (padrão: `1`)
+- `sala_id`: ID de exemplo de sala (padrão: `1`)
+- `reserva_id`: ID de exemplo de reserva (padrão: `1`)
+
+**Para configurar as variáveis:**
+
+1. Na collection, clique em **Variables**
+2. Altere os valores conforme necessário
+3. Ou crie um Environment no Postman com essas variáveis
+
+**Todas as requisições incluem:**
+
+- ✅ Headers configurados (`Content-Type: application/json`)
+- ✅ Body de exemplo para POST/PUT
+- ✅ Parâmetros de URL configurados
+- ✅ Descrições detalhadas de cada endpoint
+
+---
+
+## 💡 Exemplos de Uso
+
+### 1. Criar um Usuário
+
+**Request:**
+```bash
+POST /api/usuarios
+Content-Type: application/json
+
+{
+    "nome": "João Silva",
+    "email": "joao.silva@empresa.com",
+    "departamento": "TI",
+    "telefone": "(11) 99999-9999"
+}
+```
+
+**Response (201):**
+```json
+{
+    "status": "success",
+    "message": "Usuário criado com sucesso.",
+    "data": {
+        "id": 1,
+        "nome": "João Silva",
+        "email": "joao.silva@empresa.com",
+        "departamento": "TI",
+        "telefone": "(11) 99999-9999",
+        "created_at": "2025-12-28T15:00:00.000000Z",
+        "updated_at": "2025-12-28T15:00:00.000000Z"
+    }
+}
+```
+
+### 2. Criar uma Sala
+
+**Request:**
+```bash
+POST /api/salas
+Content-Type: application/json
+
+{
+    "nome": "Sala de Reunião A",
+    "capacidade": 10,
+    "localizacao": "1º Andar - Ala Norte"
+}
+```
+
+**Response (201):**
+```json
+{
+    "status": "success",
+    "message": "Sala criada com sucesso.",
+    "data": {
+        "id": 1,
+        "nome": "Sala de Reunião A",
+        "capacidade": 10,
+        "localizacao": "1º Andar - Ala Norte",
+        "created_at": "2025-12-28T15:00:00.000000Z",
+        "updated_at": "2025-12-28T15:00:00.000000Z"
+    }
+}
+```
+
+### 3. Verificar Disponibilidade
+
+**Request:**
+```bash
+POST /api/reservas/verificar-disponibilidade
+Content-Type: application/json
+
+{
+    "sala_id": 1,
+    "data_reserva": "2025-12-29",
+    "horario_inicio": "14:00",
+    "horario_fim": "15:00"
+}
+```
+
+**Response (200) - Disponível:**
+```json
+{
+    "status": "success",
+    "message": "Sala disponível no período solicitado.",
+    "data": {
+        "disponivel": true
+    }
+}
+```
+
+**Response (200) - Indisponível:**
+```json
+{
+    "status": "success",
+    "message": "Sala não disponível no período solicitado.",
+    "data": {
+        "disponivel": false
+    }
+}
+```
+
+### 4. Criar uma Reserva
+
+**Request:**
+```bash
+POST /api/reservas
+Content-Type: application/json
+
+{
+    "usuario_id": 1,
+    "sala_id": 1,
+    "data_reserva": "2025-12-29",
+    "horario_inicio": "14:00",
+    "horario_fim": "15:00"
+}
+```
+
+**Response (201) - Sucesso:**
+```json
+{
+    "status": "success",
+    "message": "Reserva criada com sucesso.",
+    "data": {
+        "id": 1,
+        "usuario_id": 1,
+        "sala_id": 1,
+        "data_reserva": "2025-12-29",
+        "horario_inicio": "14:00",
+        "horario_fim": "15:00",
+        "usuario": {
+            "id": 1,
+            "nome": "João Silva",
+            "email": "joao.silva@empresa.com"
+        },
+        "sala": {
+            "id": 1,
+            "nome": "Sala de Reunião A",
+            "capacidade": 10
+        },
+        "created_at": "2025-12-28T15:00:00.000000Z",
+        "updated_at": "2025-12-28T15:00:00.000000Z"
+    }
+}
+```
+
+**Response (409) - Conflito de Horário:**
+```json
+{
+    "status": "error",
+    "message": "A sala já está reservada neste horário."
+}
+```
+
+### 5. Listar Reservas de uma Sala
+
+**Request:**
+```bash
+GET /api/reservas/sala/1
+```
+
+**Response (200):**
+```json
+{
+    "status": "success",
+    "message": "Reservas da sala listadas com sucesso.",
+    "data": [
+        {
+            "id": 1,
+            "usuario_id": 1,
+            "sala_id": 1,
+            "data_reserva": "2025-12-29",
+            "horario_inicio": "14:00",
+            "horario_fim": "15:00",
+            "usuario": {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao.silva@empresa.com"
+            },
+            "sala": {
+                "id": 1,
+                "nome": "Sala de Reunião A",
+                "capacidade": 10
+            }
+        }
+    ]
+}
+```
+
+### 6. Listar Reservas de um Usuário
+
+**Request:**
+```bash
+GET /api/reservas/usuario/1
+```
+
+**Response (200):**
+```json
+{
+    "status": "success",
+    "message": "Reservas do usuário listadas com sucesso.",
+    "data": [
+        {
+            "id": 1,
+            "usuario_id": 1,
+            "sala_id": 1,
+            "data_reserva": "2025-12-29",
+            "horario_inicio": "14:00",
+            "horario_fim": "15:00",
+            "usuario": {
+                "id": 1,
+                "nome": "João Silva",
+                "email": "joao.silva@empresa.com"
+            },
+            "sala": {
+                "id": 1,
+                "nome": "Sala de Reunião A",
+                "capacidade": 10
+            }
+        }
+    ]
+}
+```
+
+---
+
+## 🏗 Arquitetura e Decisões Técnicas
+
+### Padrão Arquitetural
+
+O projeto segue uma arquitetura em camadas com separação clara de responsabilidades:
+
+1. **Controllers**: Apenas orquestram as chamadas, sem lógica de negócio
+2. **Services**: Contêm toda a lógica de negócio e regras complexas
+3. **Form Requests**: Centralizam a validação de dados de entrada
+4. **Models**: Representam as entidades e relacionamentos
+5. **Exceptions**: Exceções customizadas para casos específicos
+
+### Por que não usar Filas/Jobs?
+
+**Decisão**: Não utilizamos filas ou jobs neste projeto.
+
+**Justificativa**:
+- As operações são **síncronas** e requerem resposta imediata
+- A verificação de conflito de horário precisa ser **instantânea** para o usuário
+- Não há processamento pesado ou assíncrono necessário
+- Não há necessidade de notificações ou e-mails em background
+- A criação de reserva é uma operação simples e rápida
+
+Se no futuro houver necessidade de:
+- Envio de e-mails de confirmação
+- Notificações push
+- Processamento de relatórios pesados
+- Integração com sistemas externos
+
+Então seria apropriado implementar filas e jobs.
+
+### Validação de Conflitos de Horário
+
+A lógica de verificação de conflitos está implementada no `ReservaService` e verifica 4 casos de sobreposição:
+
+1. **Nova reserva começa durante uma reserva existente**
+2. **Nova reserva termina durante uma reserva existente**
+3. **Nova reserva engloba completamente uma reserva existente**
+4. **Reserva existente engloba completamente a nova reserva**
+
+### Tratamento de Erros
+
+- **Exceptions customizadas**: `ConflitoHorarioException` para conflitos de horário (HTTP 409)
+- **Logs estruturados**: Todas as operações importantes são logadas
+- **Respostas padronizadas**: Todas as respostas seguem o formato:
+  ```json
+  {
+      "status": "success|error",
+      "message": "Mensagem descritiva",
+      "data": {}
+  }
+  ```
+
+### Transações de Banco de Dados
+
+As operações críticas (criação e atualização de reservas) utilizam transações para garantir consistência:
+
+```php
+DB::beginTransaction();
+try {
+    // Operações
+    DB::commit();
+} catch (\Exception $e) {
+    DB::rollBack();
+    throw $e;
+}
+```
+
+---
+
+## ⚠️ Tratamento de Erros
+
+### Códigos HTTP Utilizados
+
+- **200**: Sucesso
+- **201**: Criado com sucesso
+- **400**: Erro de validação ou requisição inválida
+- **404**: Recurso não encontrado
+- **409**: Conflito (ex: horário já reservado)
+- **500**: Erro interno do servidor
+
+### Exemplo de Erro de Validação
+
+**Request:**
+```bash
+POST /api/reservas
+Content-Type: application/json
+
+{
+    "usuario_id": 999,
+    "sala_id": 1,
+    "data_reserva": "2025-12-29",
+    "horario_inicio": "15:00",
+    "horario_fim": "14:00"
+}
+```
+
+**Response (400):**
+```json
+{
+    "message": "O horário de término deve ser posterior ao horário de início. (and 1 more error)",
+    "errors": {
+        "horario_fim": [
+            "O horário de término deve ser posterior ao horário de início."
+        ],
+        "usuario_id": [
+            "O usuário informado não existe."
+        ]
+    }
+}
+```
+
+---
+
+## 📝 Notas Importantes
+
+1. **Formato de Data e Hora**:
+   - Data: `YYYY-MM-DD` (ex: `2025-12-29`)
+   - Hora: `HH:mm` (ex: `14:00`)
+
+2. **Validações**:
+   - A data da reserva não pode ser anterior a hoje
+   - O horário de término deve ser posterior ao horário de início
+   - Não é possível criar reservas com conflito de horário
+
+3. **Índices do Banco de Dados**:
+   - Foi criado um índice composto `(sala_id, data_reserva)` na tabela `reservas` para otimizar as consultas de verificação de conflito
+
+---
+
+## 👨‍💻 Desenvolvido por
+
+Sistema desenvolvido como parte de um teste de programação, seguindo boas práticas de desenvolvimento Laravel e arquitetura de software.
+
+---
+
+## 📄 Licença
+
+Este projeto é open-source e está disponível sob a licença MIT.
