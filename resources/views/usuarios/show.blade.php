@@ -10,10 +10,10 @@
             <p class="mt-2 text-sm text-gray-600">Informações completas do usuário</p>
         </div>
         <div class="flex space-x-3">
-            <a href="{{ route('usuarios.edit', $usuario) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-yellow-600 hover:bg-yellow-700">
+            <a href="{{ route('usuarios.edit', $usuario) }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                 Editar
             </a>
-            <a href="{{ route('usuarios.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+            <a href="{{ route('usuarios.index') }}" class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                 Voltar
             </a>
         </div>
@@ -58,7 +58,7 @@
                                     <p class="text-sm text-gray-500">{{ $reserva->data_reserva->format('d/m/Y') }}</p>
                                     <p class="text-sm text-gray-500">{{ $reserva->horario_inicio }} - {{ $reserva->horario_fim }}</p>
                                 </div>
-                                <a href="{{ route('reservas.show', $reserva) }}" class="text-indigo-600 hover:text-indigo-900 text-sm">
+                                <a href="{{ route('reservas.show', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                                     Ver
                                 </a>
                             </div>

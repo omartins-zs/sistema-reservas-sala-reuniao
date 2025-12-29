@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Salas</h1>
             <p class="mt-2 text-sm text-gray-600">Gerencie todas as salas disponíveis</p>
         </div>
-        <a href="{{ route('salas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+        <a href="{{ route('salas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -39,10 +39,10 @@
                         </p>
                     </div>
                     <div class="mt-4 flex space-x-2">
-                        <a href="{{ route('salas.show', $sala) }}" class="flex-1 text-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                        <a href="{{ route('salas.show', $sala) }}" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
                             Ver
                         </a>
-                        <a href="{{ route('salas.edit', $sala) }}" class="flex-1 text-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                        <a href="{{ route('salas.edit', $sala) }}" class="flex-1 text-center inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                             Editar
                         </a>
                     </div>
@@ -59,7 +59,7 @@
             <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhuma sala cadastrada</h3>
             <p class="mt-1 text-sm text-gray-500">Comece criando uma nova sala.</p>
             <div class="mt-6">
-                <a href="{{ route('salas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                <a href="{{ route('salas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                     Nova Sala
                 </a>
             </div>

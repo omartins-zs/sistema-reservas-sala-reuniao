@@ -9,7 +9,7 @@
             <h1 class="text-3xl font-bold text-gray-900">Reservas</h1>
             <p class="mt-2 text-sm text-gray-600">Gerencie todas as reservas de salas</p>
         </div>
-        <a href="{{ route('reservas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+        <a href="{{ route('reservas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
             </svg>
@@ -53,7 +53,7 @@
                 </label>
             </div>
             <div class="flex items-end">
-                <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                <button type="submit" class="w-full inline-flex justify-center items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                     Filtrar
                 </button>
             </div>
@@ -92,12 +92,18 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <div class="flex justify-end space-x-2">
-                                    <a href="{{ route('reservas.show', $reserva) }}" class="text-indigo-600 hover:text-indigo-900">Ver</a>
-                                    <a href="{{ route('reservas.edit', $reserva) }}" class="text-yellow-600 hover:text-yellow-900">Editar</a>
+                                    <a href="{{ route('reservas.show', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">
+                                        Ver
+                                    </a>
+                                    <a href="{{ route('reservas.edit', $reserva) }}" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
+                                        Editar
+                                    </a>
                                     <form action="{{ route('reservas.destroy', $reserva) }}" method="POST" class="inline" onsubmit="return confirm('Tem certeza que deseja remover esta reserva?')">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="text-red-600 hover:text-red-900">Remover</button>
+                                        <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700">
+                                            Remover
+                                        </button>
                                     </form>
                                 </div>
                             </td>
@@ -116,7 +122,7 @@
                 <h3 class="mt-2 text-sm font-medium text-gray-900">Nenhuma reserva encontrada</h3>
                 <p class="mt-1 text-sm text-gray-500">Comece criando uma nova reserva.</p>
                 <div class="mt-6">
-                    <a href="{{ route('reservas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                    <a href="{{ route('reservas.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700">
                         Nova Reserva
                     </a>
                 </div>
